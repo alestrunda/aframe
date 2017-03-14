@@ -1,0 +1,24 @@
+/*
+ * BOOTSTRAP RESPONSIVE COLUMNS
+ */
+
+$breakpoint_types: map-keys($breakpoints);
+
+//starting from 2 to skip the smallest size that's not breaking
+@for $i from 2 through length($breakpoint_types) {
+	$break: nth($breakpoint_types, $i);
+	$break_max: nth($breakpoint_types, $i - 1);
+	@media (max-width: map-get($breakpoints, $break_max) + px) {
+		@each $size, $value in $responsive_cols_sizes {
+			.responsive-column-#{$size} {
+				&[class^="col-#{$break}-"] {
+					padding-top: $value + px;
+
+					&:first-of-type {
+						padding-top: 0;
+					}
+				}
+			}
+		}
+	}
+}

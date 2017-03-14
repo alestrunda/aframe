@@ -1,0 +1,227 @@
+/* Aframe */
+
+$breakpoints: (
+    xs: 767,
+    sm: 991,
+    md: 1199,
+	lg: 1600
+);
+
+$col_padding: 15px;
+
+$responsive_cols_sizes: (
+	xs: 10,
+	sm: 20,
+	md: 35
+);
+
+/*
+ * BOOTSTRAP 1/5 COLUMN
+ */
+
+$breakpoint_types: map-keys($breakpoints);
+
+@each $break in $breakpoint_types {
+	.col-#{$break}-12-5 {
+		position: relative;
+		min-height: 1px;
+		padding-right: $col_padding;
+		padding-left: $col_padding;
+	}
+}
+
+//smallest col size
+$break: nth($breakpoint_types, 1);
+.col-#{$break}-12-5 {
+	float: left;
+	width: 20%;
+}
+.col-#{$break}-offset-12-5 {
+	margin-left: 20%;
+}
+
+//other col sizes
+@for $i from 2 through length($breakpoint_types) {
+	$break: nth($breakpoint_types, $i);
+	$break_min: nth($breakpoint_types, $i - 1);
+	@media (min-width: map-get($breakpoints, $break_min) + 1 + px) {
+		.col-#{$break}-12-5 {
+			float: left;
+			width: 20%;
+		}
+		.col-#{$break}-offset-12-5 {
+			margin-left: 20%;
+		}
+	}
+}
+
+/*
+ * BOOTSTRAP RESPONSIVE COLUMNS
+ */
+
+$breakpoint_types: map-keys($breakpoints);
+
+//starting from 2 to skip the smallest size that's not breaking
+@for $i from 2 through length($breakpoint_types) {
+	$break: nth($breakpoint_types, $i);
+	$break_max: nth($breakpoint_types, $i - 1);
+	@media (max-width: map-get($breakpoints, $break_max) + px) {
+		@each $size, $value in $responsive_cols_sizes {
+			.responsive-column-#{$size} {
+				&[class^="col-#{$break}-"] {
+					padding-top: $value + px;
+
+					&:first-of-type {
+						padding-top: 0;
+					}
+				}
+			}
+		}
+	}
+}
+
+/*
+ * MARGINS, PADDINGS
+ */
+
+$offset_types: (
+	m: margin,
+	p: padding
+);
+
+$directions: (
+	t: top,
+	r: right,
+	b: bottom,
+	l: left
+);
+
+
+@each $key, $value in $offset_types {
+	.#{$key}0 {
+		#{$value}: 0 !important;
+	}
+}
+
+@each $d_key, $d_value in $directions {
+	@each $o_key, $o_value in $offset_types {
+		.#{$o_key}#{$d_key}0 {
+			#{$d_value}-#{$o_value}: 0 !important;
+		}
+	}
+}
+
+//margin direction from 5 to 50
+@each $key, $value in $directions {
+	@for $i from 1 through 10 {
+		.m#{$key}#{$i * 5} { margin-#{$value}: $i * 5px; }
+	}
+}
+
+//margins 5 - 45, step 5
+@for $i from 1 through 9 {
+	.m#{$i * 5} { height: $i * 5px; }
+}
+
+//margins 50 - 100, step 10
+@for $i from 5 through 10 {
+	.m#{$i * 10} { height: $i * 10px; }
+}
+
+/*
+ * MISC
+ */
+
+.circle {
+	border-radius: 50%;
+}
+
+.el-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.el-relative {
+	position: relative;
+}
+
+.img-full {
+	display: block;
+	width: 100%;
+}
+
+.parallax-background {
+	position: relative;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: 50% 0;
+	background-size: auto !important;
+}
+
+/*
+ * MIXINS
+ */
+
+@mixin break($size) {  
+    @media (max-width: map-get($breakpoints, $size) + px) {
+        @content;
+    }
+}
+@mixin break-min($size) {  
+    @media (min-width: map-get($breakpoints, $size) + 1 + px) {
+        @content;
+    }
+}
+@mixin break-range($size_min, $size_max) {  
+    @media (min-width: map-get($breakpoints, $size_min) + 1 + px) and (max-width: map-get($breakpoints, $size_max) + px) {
+        @content;
+    }
+}
+
+@mixin clearfix {
+    &:before,
+    &:after {
+        content: "";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+@mixin transition($duration:0.2s, $ease:ease-out) {
+	transition: all $duration $ease;
+}
+
+@mixin retina($ratio: 2) {
+    @if $ratio == 2 {
+        //there should be from 1.5, not 2 - some devices realy have 1.5 pixel ratio
+        @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+        only screen and (min-resolution: 144dpi) {
+            @content;
+        }
+    }
+    @else if $ratio == 3 {
+        @media only screen and (-webkit-min-device-pixel-ratio: 3),
+        only screen and (min-resolution: 288dpi) {
+            @content;
+        }
+    }
+}
+
+/*
+ * RESPONSIVE TEXT ALIGNING
+ */
+
+$text_aligns: (left, center, right, justify);
+
+
+@each $key, $value in $breakpoints {
+    @media (max-width: map-get($breakpoints, $key) + px) {
+        @each $item in $text_aligns {
+            .text-#{$key}-#{$item} {
+                text-align: #{$item};
+            }
+        }
+    }
+}

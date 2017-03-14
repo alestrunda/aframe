@@ -1,0 +1,39 @@
+/*
+ * BOOTSTRAP 1/5 COLUMN
+ */
+
+$breakpoint_types: map-keys($breakpoints);
+
+@each $break in $breakpoint_types {
+	.col-#{$break}-12-5 {
+		position: relative;
+		min-height: 1px;
+		padding-right: $col_padding;
+		padding-left: $col_padding;
+	}
+}
+
+//smallest col size
+$break: nth($breakpoint_types, 1);
+.col-#{$break}-12-5 {
+	float: left;
+	width: 20%;
+}
+.col-#{$break}-offset-12-5 {
+	margin-left: 20%;
+}
+
+//other col sizes
+@for $i from 2 through length($breakpoint_types) {
+	$break: nth($breakpoint_types, $i);
+	$break_min: nth($breakpoint_types, $i - 1);
+	@media (min-width: map-get($breakpoints, $break_min) + 1 + px) {
+		.col-#{$break}-12-5 {
+			float: left;
+			width: 20%;
+		}
+		.col-#{$break}-offset-12-5 {
+			margin-left: 20%;
+		}
+	}
+}

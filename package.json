@@ -1,0 +1,17 @@
+{
+  "name": "aframe",
+  "version": "2.1.0",
+  "description": "Tiny Sass framework, mostly to enhance bootstrap.",
+  "license": "UNLICENSED",
+  "repository": "https://github.com/alestrunda/aframe",
+  "devDependencies": {
+    "autoprefixer": "*",
+    "gulp": "*",
+    "gulp-concat": "*",
+    "gulp-cssnano": "*",
+    "gulp-postcss": "*",
+    "gulp-rename": "*",
+    "gulp-sass": "*",
+    "run-sequence": "*"
+  }
+}

@@ -1,0 +1,29 @@
+/*
+ * MISC
+ */
+
+.circle {
+	border-radius: 50%;
+}
+
+.el-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.el-relative {
+	position: relative;
+}
+
+.img-full {
+	display: block;
+	width: 100%;
+}
+
+.parallax-background {
+	position: relative;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: 50% 0;
+	background-size: auto !important;
+}
